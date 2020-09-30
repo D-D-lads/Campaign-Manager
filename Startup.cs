@@ -25,9 +25,7 @@ namespace dnd_planner
        Configuration.GetSection(nameof(DatabaseSettings)));
             services.AddSingleton<IDatabaseSettings>(provider =>
                 provider.GetRequiredService<IOptions<DatabaseSettings>>().Value);
-
-
-
+            services.AddScoped<CampaignService>();
             services.AddControllers();
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory

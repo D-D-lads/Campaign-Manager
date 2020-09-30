@@ -6,10 +6,10 @@ import { HttpClient } from "@angular/common/http";
   templateUrl: "./my-campaigns.component.html",
 })
 export class MyCampaignsComponent {
-  public forecasts: WeatherForecast[];
+  public forecasts: Campaigns[];
 
   constructor(http: HttpClient, @Inject("BASE_URL") baseUrl: string) {
-    http.get<WeatherForecast[]>(baseUrl + "weatherforecast").subscribe(
+    http.get<Campaigns[]>(baseUrl + "").subscribe(
       (result) => {
         this.forecasts = result;
       },
@@ -18,7 +18,7 @@ export class MyCampaignsComponent {
   }
 }
 
-interface WeatherForecast {
+interface Campaigns {
   date: string;
   temperatureC: number;
   temperatureF: number;
