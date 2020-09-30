@@ -1,5 +1,4 @@
 using System;
-
 namespace dnd_planner
 {
     public class WeatherForecast
