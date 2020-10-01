@@ -59,3 +59,15 @@ code {
   top: 0;
   right: 0;
 }
+.editCampaign {
+  background-color: rgb(216, 168, 35);
+  color: white;
+  font-weight: bolder;
+  width: 5rem;
+  height: 2rem;
+  position: absolute;
+  border-radius: 8px;
+  text-align: center;
+  top: 0;
+  left: 0;
+}
