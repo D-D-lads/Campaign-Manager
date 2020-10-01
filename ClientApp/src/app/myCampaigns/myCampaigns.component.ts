@@ -24,11 +24,48 @@ export class MyCampaignsComponent {
       },
     });
   }
+  deleteCampaign(id) {
+    swal
+      .fire({
+        title: "Do you want to delete?",
+        showDenyButton: true,
+        confirmButtonText: `Delete`,
+        denyButtonText: `Don't Delete`,
+      })
+      .then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          this.deleteData(id);
+        }
+      });
+  }
   postData(value: string): Observable<Campaigns> {
     this.http
       .post<Campaigns>(this.baseUrl + "api/CampaignsController", {
         Name: value,
       })
+      .subscribe(
+        (result) => {
+          this.http
+            .get<Campaigns[]>(this.baseUrl + "api/CampaignsController")
+            .subscribe(
+              (result) => {
+                this.forecasts = result;
+              },
+              (error) => console.error(error)
+            );
+          return result;
+        },
+        (error) => {
+          console.error(error);
+          return error;
+        }
+      );
+    return;
+  }
+  deleteData(id: string) {
+    this.http
+      .delete<Campaigns>(this.baseUrl + `api/CampaignsController?id=${id}`)
       .subscribe(
         (result) => {
           this.http

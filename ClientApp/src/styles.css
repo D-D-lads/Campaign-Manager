@@ -47,3 +47,15 @@ code {
   color: rgb(170, 255, 175);
   border-style: ridge;
 }
+.deleteCampaign {
+  background-color: rgb(160, 36, 36);
+  color: white;
+  font-weight: bolder;
+  width: 2rem;
+  height: 2rem;
+  position: absolute;
+  border-radius: 8px;
+  text-align: center;
+  top: 0;
+  right: 0;
+}

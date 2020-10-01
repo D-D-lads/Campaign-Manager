@@ -3,6 +3,9 @@
 <p *ngIf="!forecasts"><em>Loading...</em></p>
 <div *ngFor="let forecast of forecasts" class="campaignList">
   <div class="card">
+    <button (click)="deleteCampaign(forecast.id)" class="deleteCampaign">
+      X
+    </button>
     <td>{{ forecast.name }}</td>
   </div>
 </div>
