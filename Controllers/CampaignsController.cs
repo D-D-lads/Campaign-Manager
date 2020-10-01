@@ -23,6 +23,7 @@ namespace dnd_planner
         public async Task<ActionResult<IEnumerable<Campaigns>>> GetAll()
         {
             var campaigns = await _campaignService.GetAllAsync();
+            System.Console.WriteLine(campaigns);
             return Ok(campaigns);
         }
         public async Task<ActionResult<Campaigns>> GetById(string id)

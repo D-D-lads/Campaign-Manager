@@ -14,3 +14,36 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+.card {
+  width: 15rem;
+  height: 10rem;
+  border-radius: 8px;
+  text-align: center;
+  justify-content: center;
+  border-color: rgb(6, 2, 39);
+  border-width: 2px;
+  margin: 1rem;
+}
+.card:hover {
+  background-color: rgb(191, 204, 230);
+}
+.card:active {
+  color: rgb(191, 204, 230);
+  background-color: rgb(6, 2, 39);
+}
+.campaignList {
+  display: inline-flex;
+}
+.addCampaign {
+  border-style: dashed;
+  border-color: rgb(10, 53, 10);
+  border-width: 4px;
+}
+.addCampaign:hover {
+  background-color: rgb(170, 255, 175);
+}
+.addCampaign:active {
+  background-color: rgb(10, 53, 10);
+  color: rgb(170, 255, 175);
+  border-style: ridge;
+}

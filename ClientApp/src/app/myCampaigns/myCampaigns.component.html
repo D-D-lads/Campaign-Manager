@@ -1,0 +1,9 @@
+<h1 id="tableLabel">My Campaigns</h1>
+
+<p *ngIf="!forecasts"><em>Loading...</em></p>
+<div *ngFor="let forecast of forecasts" class="campaignList">
+  <div class="card">
+    <td>{{ forecast.name }}</td>
+  </div>
+</div>
+<div class="card addCampaign" (click)="onClickMe()">Add Campaign</div>

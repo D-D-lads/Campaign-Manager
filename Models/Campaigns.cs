@@ -5,6 +5,8 @@ using MongoDB.Driver.Core;
 using MongoDB.Driver;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
 namespace dnd_planner
 {
     public class Campaigns
@@ -12,9 +14,8 @@ namespace dnd_planner
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Major { get; set; }
+        [Required(ErrorMessage = "name is required")]
+        public string Name { get; set; }
     }
     public class CampaignService
     {
