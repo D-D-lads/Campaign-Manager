@@ -13,6 +13,7 @@ import { catchError } from "rxjs/operators";
 export class MyCampaignsComponent {
   public forecasts: Campaigns[];
   public campaign: Campaigns = null;
+  public characters: Character[];
   //When the new campaign button is clicked. this function will pop up a sweetalert
   onClickMe() {
     swal.fire({
@@ -143,15 +144,26 @@ export class MyCampaignsComponent {
   }
 
   // set the campaign variable to the campaign that is clicked on
-  setCampaign(Campaign) {
+  setCampaign = async (Campaign) => {
     //so I guess this works now?
-    this.http
+    await this.http
       .get<Campaigns>(
         this.baseUrl + `api/CampaignsController/${Campaign.id}/byID`
       )
       .subscribe(
         (result) => {
           this.campaign = result;
+        },
+        (error) => console.error(error)
+      );
+    await this.getCharacters(Campaign);
+  };
+  getCharacters(campaign) {
+    this.http
+      .get<Character[]>(this.baseUrl + `api/CharacterController`)
+      .subscribe(
+        (result) => {
+          this.characters = result;
         },
         (error) => console.error(error)
       );
@@ -186,5 +198,11 @@ export class MyCampaignsComponent {
 }
 
 interface Campaigns {
+  id: string;
+  name: string;
+}
+interface Character {
+  id: string;
+  CampaignsId: string;
   name: string;
 }
