@@ -21,7 +21,7 @@ code {
   text-align: center;
   justify-content: center;
   border-color: rgb(6, 2, 39);
-  border-width: 2px;
+  border-width: 1px;
   margin: 1rem;
 }
 .card:hover {
@@ -42,11 +42,6 @@ code {
 .addCampaign:hover {
   background-color: rgb(170, 255, 175);
 }
-.addCampaign:active {
-  background-color: rgb(10, 53, 10);
-  color: rgb(170, 255, 175);
-  border-style: ridge;
-}
 .deleteCampaign {
   background-color: rgb(160, 36, 36);
   color: white;
@@ -63,11 +58,24 @@ code {
   background-color: rgb(216, 168, 35);
   color: white;
   font-weight: bolder;
-  width: 5rem;
+  width: 13rem;
   height: 2rem;
   position: absolute;
   border-radius: 8px;
   text-align: center;
   top: 0;
   left: 0;
+}
+.selectCampaign {
+  position: absolute;
+  background-color: transparent;
+  border-color: white;
+  border-width: 0px;
+  bottom: 0;
+  height: 80%;
+  width: 100%;
+  border-radius: 8px;
+}
+.selectCampaign:active {
+  color: rgb(191, 204, 230);
 }

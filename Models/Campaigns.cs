@@ -9,6 +9,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace dnd_planner
 {
+    public class Plotline
+    {
+        [Required(ErrorMessage = "Title is required")]
+        public string Title { get; set; }
+        [Required(ErrorMessage = "Details are required")]
+        public string Details { get; set; }
+        public string[] characters { get; set; }
+        public string status { get; set; }
+    }
     public class Campaigns
     {
         [BsonId]
@@ -16,6 +25,8 @@ namespace dnd_planner
         public string Id { get; set; }
         [Required(ErrorMessage = "name is required")]
         public string Name { get; set; }
+        public Plotline[] plotlines { get; set; }
+        public string[] characters { get; set; }
     }
     public class CampaignService
     {

@@ -1,15 +1,43 @@
-<h1 id="tableLabel">My Campaigns</h1>
+<div *ngIf="!campaign">
+  <h1 id="tableLabel">My Campaigns</h1>
 
-<p *ngIf="!forecasts"><em>Loading...</em></p>
-<div *ngFor="let forecast of forecasts" class="campaignList">
-  <div class="card">
-    <button (click)="deleteCampaign(forecast.id)" class="deleteCampaign">
-      X
-    </button>
-    <button (click)="editCampaign(forecast.id)" class="editCampaign">
-      Edit
-    </button>
-    <td>{{ forecast.name }}</td>
+  <p *ngIf="!forecasts"><em>Loading...</em></p>
+  <div *ngFor="let forecast of forecasts" class="campaignList">
+    <div class="card">
+      <button (click)="deleteCampaign(forecast.id)" class="deleteCampaign">
+        X
+      </button>
+      <button (click)="editCampaign(forecast.id)" class="editCampaign">
+        Edit Name
+      </button>
+      <button class="selectCampaign" (click)="setCampaign(forecast)">
+        {{ forecast.name }}
+      </button>
+    </div>
   </div>
+  <div class="card addCampaign" (click)="onClickMe()">Add Campaign</div>
 </div>
-<div class="card addCampaign" (click)="onClickMe()">Add Campaign</div>
+<div *ngIf="campaign" class="container">
+  <h1>{{ campaign.name }}</h1>
+  <span>
+    <button class="btn btn-success mr-5">Characters</button
+    ><button class="btn btn-info mr-5">Status</button>
+  </span>
+  <table class="table table-striped table-bordered table-dark row">
+    <thead class="row col-12">
+      <tr class="row col-12">
+        <th class="col-2">Title</th>
+        <th class="col-6">Details</th>
+        <th class="col-2">Status</th>
+        <th class="col-2">
+          <button class="btn btn-success" (click)="addPlotLine()">
+            Add Plotline
+          </button>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr></tr>
+    </tbody>
+  </table>
+</div>
