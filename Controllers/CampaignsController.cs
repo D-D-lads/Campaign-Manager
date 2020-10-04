@@ -26,6 +26,7 @@ namespace dnd_planner
             System.Console.WriteLine(campaigns);
             return Ok(campaigns);
         }
+        [HttpGet("{id}/byID")]
         public async Task<ActionResult<Campaigns>> GetById(string id)
         {
             var campaign = await _campaignService.GetByIdAsync(id);

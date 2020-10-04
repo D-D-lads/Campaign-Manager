@@ -19,9 +19,20 @@
 </div>
 <div *ngIf="campaign" class="container">
   <h1>{{ campaign.name }}</h1>
-  <span>
-    <button class="btn btn-success mr-5">Characters</button
-    ><button class="btn btn-info mr-5">Status</button>
+  <span class="row">
+    <div class="btn-group col-6 row" role="group">
+      <select class="btn btn-success col-8">
+        <option default disabled>Characters</option>
+        <option>Michael</option>
+        <option>Pablo</option>
+        <option>Karl</option>
+      </select>
+      <button class="btn btn-success col-1">+</button>
+    </div>
+    <div class="btn-group col-6" role="group">
+      <button class="btn btn-info">Status</button>
+      <button class="btn btn-info">+</button>
+    </div>
   </span>
   <table class="table table-striped table-bordered table-dark row">
     <thead class="row col-12">

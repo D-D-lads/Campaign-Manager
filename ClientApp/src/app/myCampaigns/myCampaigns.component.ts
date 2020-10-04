@@ -144,11 +144,14 @@ export class MyCampaignsComponent {
 
   // set the campaign variable to the campaign that is clicked on
   setCampaign(Campaign) {
+    //so I guess this works now?
     this.http
-      .get<Campaigns>(this.baseUrl + `api/CampaignsController`, Campaign.id)
+      .get<Campaigns>(
+        this.baseUrl + `api/CampaignsController/${Campaign.id}/byID`
+      )
       .subscribe(
         (result) => {
-          console.log(result);
+          this.campaign = result;
         },
         (error) => console.error(error)
       );

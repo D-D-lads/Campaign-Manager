@@ -79,3 +79,13 @@ code {
 .selectCampaign:active {
   color: rgb(191, 204, 230);
 }
+.btn {
+  height: 3rem;
+}
+.custom-select {
+  height: 3rem;
+}
+select,
+option {
+  height: 3rem;
+}
