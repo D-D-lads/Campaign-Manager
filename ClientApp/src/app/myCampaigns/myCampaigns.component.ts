@@ -26,9 +26,9 @@ export class MyCampaignsComponent {
   public campaign: Campaigns = null;
   public characters: Character[];
   public plotlines: Plotline[];
-  public filteredPlot: Plotline[] = [];
+  public filteredPlot: Plotline[];
   public statuses: string[];
-  public filter: Object[] = [];
+  public filter: Character[] = [];
 
   /*----------------------------------------------------------
   
@@ -362,7 +362,7 @@ Select Campaign
       );
   }
 
-  addToFilter = (obj: Object) => {
+  addToFilter = (obj: Character) => {
     let tempFilter = [...this.filter, obj];
     if (tempFilter) {
       this.filter = tempFilter;
@@ -370,17 +370,31 @@ Select Campaign
     console.log(this.filter);
     this.verifyPlotlines();
   };
-  removeFromFilter = (obj: Object) => {
+  removeFromFilter = (obj: Character) => {
     let index = this.filter.indexOf(obj);
     console.log(index);
     this.filter.splice(index, 1);
     console.log(this.filter);
     this.verifyPlotlines();
   };
+
   verifyPlotlines = () => {
-    this.filteredPlot = this.plotlines.filter((v) =>
-      v.characters.every((w) => this.filter.includes(w))
-    );
+    console.log("filter: ", this.filter);
+    if (this.filter.length == 0) {
+      this.filteredPlot = this.plotlines;
+      console.log("filtered Plot: ", this.filteredPlot);
+    } else {
+      this.filteredPlot = this.plotlines.filter((v) => {
+        return v.characters.every((w) => {
+          return this.filter.some((x) => x.id == w.id);
+        });
+      });
+    }
+  };
+  includesCharacter = (plotline: Plotline, character: Character) => {
+    return plotline.characters.some((w) => {
+      return character.id == w.id;
+    });
   };
   addCharacterToPlot = (character, plotline) => {
     let tempCharacters = [...plotline.characters, character];
@@ -394,7 +408,7 @@ Select Campaign
       )
       .subscribe(
         (result) => {
-          this.getPlotLine(plotline.CampaignsID);
+          this.getPlotLine(this.campaign.id);
         },
         (error) => console.error(error)
       );
@@ -445,11 +459,14 @@ interface Campaigns {
 interface Character {
   id: string;
   CampaignsId: string;
-  name: string;
+  Name: string;
+  Status: string;
 }
 interface Plotline {
-  id: string;
   CampaignsId: string;
-  name: string;
   characters: Character[];
+  details: string;
+  id: string;
+  status: string;
+  title: string;
 }

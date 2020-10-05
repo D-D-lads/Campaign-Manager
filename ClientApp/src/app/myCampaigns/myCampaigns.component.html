@@ -98,7 +98,7 @@
             <div class="dropdown-menu" aria-labelledby="addToPlot">
               <div *ngFor="let character of characters">
                 <button
-                  *ngIf="!filter.includes(character)"
+                  *ngIf="!includesCharacter(plotline, character)"
                   class="dropdown-item"
                   (click)="addCharacterToPlot(character, plotline)"
                 >

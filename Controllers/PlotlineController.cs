@@ -42,7 +42,7 @@ namespace dnd_planner
             await _plotlineService.CreateAsync(plotline);
             return Ok(plotline);
         }
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(string id, Plotline updatedPlotline)
         {
             var queriedPlotline = await _plotlineService.GetByIdAsync(id);
