@@ -84,7 +84,29 @@
           <div *ngFor="let character of plotline.characters">
             {{ character.name }}
           </div>
-          <button class="btn btn-success">+</button>
+          <div class="dropdown">
+            <button
+              class="btn btn-secondary dropdown-toggle"
+              type="button"
+              id="addToPlot"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              +
+            </button>
+            <div class="dropdown-menu" aria-labelledby="addToPlot">
+              <div *ngFor="let character of characters">
+                <button
+                  *ngIf="!filter.includes(character)"
+                  class="dropdown-item"
+                  (click)="addCharacterToPlot(character, plotline)"
+                >
+                  {{ character.name }}
+                </button>
+              </div>
+            </div>
+          </div>
         </td>
       </tr>
     </tbody>

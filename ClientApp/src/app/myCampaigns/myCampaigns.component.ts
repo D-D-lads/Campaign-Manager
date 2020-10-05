@@ -382,6 +382,23 @@ Select Campaign
       v.characters.every((w) => this.filter.includes(w))
     );
   };
+  addCharacterToPlot = (character, plotline) => {
+    let tempCharacters = [...plotline.characters, character];
+    if (tempCharacters) {
+      plotline.characters = tempCharacters;
+    }
+    this.http
+      .put<Plotline>(
+        this.baseUrl + `api/PlotlineController/${plotline.id}`,
+        plotline
+      )
+      .subscribe(
+        (result) => {
+          this.getPlotLine(plotline.CampaignsID);
+        },
+        (error) => console.error(error)
+      );
+  };
   /*
   
   
