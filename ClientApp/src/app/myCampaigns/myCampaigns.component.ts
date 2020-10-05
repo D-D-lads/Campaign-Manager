@@ -160,10 +160,11 @@ export class MyCampaignsComponent {
   };
   getCharacters(campaign) {
     this.http
-      .get<Character[]>(this.baseUrl + `api/CharacterController`)
+      .get<Character[]>(this.baseUrl + `api/CharacterController/${campaign.id}`)
       .subscribe(
         (result) => {
           this.characters = result;
+          console.log(result);
         },
         (error) => console.error(error)
       );

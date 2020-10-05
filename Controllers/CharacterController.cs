@@ -22,7 +22,7 @@ namespace dnd_planner
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<Character>>> GetAll(string id)
         {
-            var characters = await _characterService.GetByIdAsync(id);
+            var characters = await _characterService.GetByCampaignAsync(id);
             System.Console.WriteLine(characters);
             return Ok(characters);
         }

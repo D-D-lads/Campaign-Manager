@@ -21,19 +21,38 @@
   <h1>{{ campaign.name }}</h1>
   <span class="row">
     <div class="btn-group col-6 row" role="group">
-      <select class="btn btn-success col-8">
-        <option default disabled>Characters</option>
-        <option>Michael</option>
-        <option>Pablo</option>
-        <option>Karl</option>
-      </select>
-      <button class="btn btn-success col-1">+</button>
-    </div>
-    <div class="btn-group col-6" role="group">
-      <button class="btn btn-info">Status</button>
-      <button class="btn btn-info">+</button>
+      <div class="dropdown">
+        <button
+          class="btn btn-secondary dropdown-toggle"
+          type="button"
+          id="dropdownMenuButton"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          Dropdown button
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a *ngFor="let character of characters" class="dropdown-item">{{
+            character.name
+          }}</a>
+        </div>
+      </div>
+
+      <div class="btn-group col-6" role="group">
+        <button class="btn btn-info">Status</button>
+        <button class="btn btn-info">+</button>
+      </div>
     </div>
   </span>
+  <div class="row col-12">
+    <div *ngFor="let character of characters" class="row col-3 text-center">
+      <div class="col-10">
+        {{ character.name }}
+      </div>
+      <button class="btn btn-danger col-2">x</button>
+    </div>
+  </div>
   <table class="table table-striped table-bordered table-dark row">
     <thead class="row col-12">
       <tr class="row col-12">

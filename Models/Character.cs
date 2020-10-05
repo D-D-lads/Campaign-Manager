@@ -36,6 +36,10 @@ namespace dnd_planner
         {
             return await _characters.Find<Character>(s => s.Id == id).FirstOrDefaultAsync();
         }
+        public async Task<List<Character>> GetByCampaignAsync(string id)
+        {
+            return await _characters.Find(s => s.CampaignsId == id).ToListAsync();
+        }
         public async Task<Character> CreateAsync(Character campaigns)
         {
             await _characters.InsertOneAsync(campaigns);
