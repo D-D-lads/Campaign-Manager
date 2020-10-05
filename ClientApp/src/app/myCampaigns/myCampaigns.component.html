@@ -33,11 +33,18 @@
           Dropdown button
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a *ngFor="let character of characters" class="dropdown-item">{{
-            character.name
-          }}</a>
+          <div *ngFor="let character of characters">
+            <button
+              *ngIf="!filter.includes(character)"
+              class="dropdown-item"
+              (click)="addToFilter(character)"
+            >
+              {{ character.name }}
+            </button>
+          </div>
         </div>
       </div>
+      <button class="btn btn-dark">+</button>
 
       <div class="btn-group col-6" role="group">
         <button class="btn btn-info">Status</button>
@@ -46,29 +53,39 @@
     </div>
   </span>
   <div class="row col-12">
-    <div *ngFor="let character of characters" class="row col-3 text-center">
-      <div class="col-10">
+    <div *ngFor="let character of filter" class="text-center outline">
+      <div>
         {{ character.name }}
       </div>
-      <button class="btn btn-danger col-2">x</button>
+      <button class="btn btn-danger" (click)="removeFromFilter(character)">
+        x
+      </button>
     </div>
   </div>
   <button class="btn btn-success" (click)="addPlotLine(campaign)">
     Add Plotline
   </button>
-  <table class="table table-striped table-bordered table-dark row">
-    <thead class="row col-12">
-      <tr class="row col-12">
-        <th class="col-3">Title</th>
-        <th class="col-6">Details</th>
-        <th class="col-3">Status</th>
+  <table class="table table-striped table-bordered table-dark">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Details</th>
+        <th>Status</th>
+        <th>Characters</th>
       </tr>
     </thead>
-    <tbody class="row col-12">
-      <tr *ngFor="let plotline of plotlines" class="row col-12">
-        <td class="col-3">{{ plotline.title }}</td>
-        <td class="col-6">{{ plotline.details }}</td>
-        <td class="col-3">{{ plotline.status }}</td>
+    <tbody>
+      <tr *ngFor="let plotline of filteredPlot">
+        <td>{{ plotline.title }}</td>
+        <td>{{ plotline.details }}</td>
+        <td>{{ plotline.status }}</td>
+        <td>
+          <div *ngIf="!plotline.characters[0]">N/A</div>
+          <div *ngFor="let character of plotline.characters">
+            {{ character.name }}
+          </div>
+          <button class="btn btn-success">+</button>
+        </td>
       </tr>
     </tbody>
   </table>

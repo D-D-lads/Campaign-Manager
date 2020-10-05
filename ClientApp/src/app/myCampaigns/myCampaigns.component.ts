@@ -26,8 +26,9 @@ export class MyCampaignsComponent {
   public campaign: Campaigns = null;
   public characters: Character[];
   public plotlines: Plotline[];
-  statuses: string[];
-  filter: Object[];
+  public filteredPlot: Plotline[] = [];
+  public statuses: string[];
+  public filter: Object[] = [];
 
   /*----------------------------------------------------------
   
@@ -310,6 +311,7 @@ Select Campaign
         (result) => {
           console.log(result);
           this.plotlines = result;
+          this.verifyPlotlines();
         },
         (error) => {
           console.error(error);
@@ -359,6 +361,27 @@ Select Campaign
         (error) => console.error(error)
       );
   }
+
+  addToFilter = (obj: Object) => {
+    let tempFilter = [...this.filter, obj];
+    if (tempFilter) {
+      this.filter = tempFilter;
+    }
+    console.log(this.filter);
+    this.verifyPlotlines();
+  };
+  removeFromFilter = (obj: Object) => {
+    let index = this.filter.indexOf(obj);
+    console.log(index);
+    this.filter.splice(index, 1);
+    console.log(this.filter);
+    this.verifyPlotlines();
+  };
+  verifyPlotlines = () => {
+    this.filteredPlot = this.plotlines.filter((v) =>
+      v.characters.every((w) => this.filter.includes(w))
+    );
+  };
   /*
   
   
@@ -411,4 +434,5 @@ interface Plotline {
   id: string;
   CampaignsId: string;
   name: string;
+  characters: Character[];
 }

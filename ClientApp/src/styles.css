@@ -89,3 +89,7 @@ select,
 option {
   height: 3rem;
 }
+
+.outline {
+  border: 1px solid black;
+}
