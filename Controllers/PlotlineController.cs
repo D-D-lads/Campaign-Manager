@@ -19,10 +19,10 @@ namespace dnd_planner
         {
             _plotlineService = service;
         }
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Plotline>>> GetAll()
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<Plotline>>> GetAll(string id)
         {
-            var plotlines = await _plotlineService.GetAllAsync();
+            var plotlines = await _plotlineService.GetByCampaignAsync(id);
             System.Console.WriteLine(plotlines);
             return Ok(plotlines);
         }

@@ -53,21 +53,23 @@
       <button class="btn btn-danger col-2">x</button>
     </div>
   </div>
+  <button class="btn btn-success" (click)="addPlotLine(campaign)">
+    Add Plotline
+  </button>
   <table class="table table-striped table-bordered table-dark row">
     <thead class="row col-12">
       <tr class="row col-12">
-        <th class="col-2">Title</th>
+        <th class="col-3">Title</th>
         <th class="col-6">Details</th>
-        <th class="col-2">Status</th>
-        <th class="col-2">
-          <button class="btn btn-success" (click)="addPlotLine()">
-            Add Plotline
-          </button>
-        </th>
+        <th class="col-3">Status</th>
       </tr>
     </thead>
-    <tbody>
-      <tr></tr>
+    <tbody class="row col-12">
+      <tr *ngFor="let plotline of plotlines" class="row col-12">
+        <td class="col-3">{{ plotline.title }}</td>
+        <td class="col-6">{{ plotline.details }}</td>
+        <td class="col-3">{{ plotline.status }}</td>
+      </tr>
     </tbody>
   </table>
 </div>

@@ -14,10 +14,11 @@ namespace dnd_planner
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        public string Name { get; set; }
-        public Character[] characters { get; set; }
+        public string Title { get; set; }
+        public string Details { get; set; }
         public string status { get; set; }
         public string CampaignsId { get; set; }
+        public Character[] characters { get; set; }
     }
     public class PlotlineService
     {
@@ -35,6 +36,10 @@ namespace dnd_planner
         public async Task<Plotline> GetByIdAsync(string id)
         {
             return await _plotlines.Find<Plotline>(s => s.Id == id).FirstOrDefaultAsync();
+        }
+        public async Task<List<Plotline>> GetByCampaignAsync(string id)
+        {
+            return await _plotlines.Find(s => s.CampaignsId == id).ToListAsync();
         }
         public async Task<Plotline> CreateAsync(Plotline campaigns)
         {

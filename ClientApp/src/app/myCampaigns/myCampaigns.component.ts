@@ -228,6 +228,7 @@ Select Campaign
         (error) => console.error(error)
       );
     await this.getCharacters(Campaign);
+    await this.getPlotLine(Campaign.id);
   };
 
   /* --------------------------------------
@@ -301,21 +302,63 @@ Select Campaign
   
   
   --------------- */
+
+  getPlotLine = (campaignid) => {
+    this.http
+      .get<Plotline[]>(this.baseUrl + `api/PlotlineController/${campaignid}`)
+      .subscribe(
+        (result) => {
+          console.log(result);
+          this.plotlines = result;
+        },
+        (error) => {
+          console.error(error);
+        }
+      );
+  };
   addPlotLine = (Campaign) => {
     swal.fire({
-      title: "New Campaign",
+      title: "Title",
       input: "text",
       showCancelButton: true,
       inputValidator: (value) => {
         if (!value) {
           return "You need to write something!";
         } else {
+          swal.fire({
+            title: "Description",
+            input: "text",
+            showCancelButton: true,
+            inputValidator: (val2) => {
+              if (!val2) {
+                return "You need to write something!";
+              } else {
+                this.postPlotline({
+                  Title: value,
+                  Details: val2,
+                  characters: [],
+                  status: "open",
+                  CampaignsID: Campaign.id,
+                });
+              }
+            },
+          });
         }
       },
     });
     return;
   };
 
+  postPlotline(plotline) {
+    this.http
+      .post<Plotline>(this.baseUrl + `api/PlotlineController`, plotline)
+      .subscribe(
+        (result) => {
+          this.getPlotLine(plotline.CampaignsID);
+        },
+        (error) => console.error(error)
+      );
+  }
   /*
   
   
