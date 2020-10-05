@@ -413,6 +413,26 @@ Select Campaign
         (error) => console.error(error)
       );
   };
+  removeCharacterFromPlot = (character: Character, plotline: Plotline) => {
+    let index = plotline.characters.indexOf(character);
+    let tempCharacters = plotline.characters;
+    tempCharacters.splice(index, 1);
+    console.log(tempCharacters);
+    if (tempCharacters !== null) {
+      plotline.characters = tempCharacters;
+    }
+    this.http
+      .put<Plotline>(
+        this.baseUrl + `api/PlotlineController/${plotline.id}`,
+        plotline
+      )
+      .subscribe(
+        (result) => {
+          this.getPlotLine(this.campaign.id);
+        },
+        (error) => console.error(error)
+      );
+  };
   /*
   
   
