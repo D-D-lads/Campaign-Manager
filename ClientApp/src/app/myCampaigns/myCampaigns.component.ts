@@ -11,10 +11,43 @@ import { catchError } from "rxjs/operators";
 
 //I have no idea how to do subrouting for each campaign id.
 export class MyCampaignsComponent {
+  /*
+  variable definitions
+
+  forecasts   - the list of all campaigns
+  campaign    - the campaign you select to play
+  characters  - the list of all characters in the selected campaign
+  plotlines   - the list of all plotlines in the selected campaign
+  statuses    - the list of all statuses in the selected campaign
+  filter      - an array of all characters or plotlines to include in your search
+  
+  */
   public forecasts: Campaigns[];
   public campaign: Campaigns = null;
   public characters: Character[];
-  //When the new campaign button is clicked. this function will pop up a sweetalert
+  public plotlines: Plotline[];
+  statuses: string[];
+  filter: Object[];
+
+  /*----------------------------------------------------------
+  
+  
+  Campaign selection menu
+  
+  
+  ----------------------------------------------------------*/
+
+  /*---------------------------
+
+
+  Adding a Campaign
+  
+  
+  ---------------------------*/
+
+  /*
+  When the new campaign button is clicked. this function will pop up a sweetalert
+  */
   onClickMe() {
     swal.fire({
       title: "New Campaign",
@@ -60,7 +93,15 @@ export class MyCampaignsComponent {
     return;
   }
 
-  //this should pop up with a sweetalert asking if you're sure.
+  /*---------------------------
+  
+  
+  Deleting a Campaign
+  
+  
+  ---------------------------*/
+
+  //sweetalert for confirm
   deleteCampaign(id) {
     swal
       .fire({
@@ -76,7 +117,7 @@ export class MyCampaignsComponent {
       });
   }
 
-  //on swal confirm, delete the campaign from the database
+  //server request for delete
   deleteData(id: string) {
     this.http
       .delete<Campaigns>(this.baseUrl + `api/CampaignsController?id=${id}`)
@@ -100,7 +141,16 @@ export class MyCampaignsComponent {
       );
     return;
   }
-  //edit the campaign's name.
+
+  /* -----------------------------
+  
+
+  Editing the campaign Name
+
+  
+  ------------------------------  */
+
+  //sweetalert to type the new campaign name
   editCampaign(id) {
     swal.fire({
       title: "New Campaign",
@@ -116,7 +166,7 @@ export class MyCampaignsComponent {
     });
   }
 
-  //post the edit to the db, then do a get on success
+  //edit the campaign on the server
   editData(value: string, id: string) {
     this.http
       .put<Campaigns>(this.baseUrl + `api/CampaignsController?id=${id}`, {
@@ -125,6 +175,7 @@ export class MyCampaignsComponent {
       })
       .subscribe(
         (result) => {
+          //do a get if successful
           this.http
             .get<Campaigns[]>(this.baseUrl + "api/CampaignsController")
             .subscribe(
@@ -143,6 +194,26 @@ export class MyCampaignsComponent {
     return;
   }
 
+  /*--------------------------------------------------
+
+
+
+  
+Campaign Selection
+
+
+
+
+---------------------------------------------------*/
+
+  /*-------------------
+
+
+Select Campaign
+
+
+--------------------*/
+
   // set the campaign variable to the campaign that is clicked on
   setCampaign = async (Campaign) => {
     //so I guess this works now?
@@ -158,6 +229,15 @@ export class MyCampaignsComponent {
       );
     await this.getCharacters(Campaign);
   };
+
+  /* --------------------------------------
+  
+  
+  Getting characters in selected campaign
+
+
+  
+  -------------------------------------- */
   getCharacters(campaign) {
     this.http
       .get<Character[]>(this.baseUrl + `api/CharacterController/${campaign.id}`)
@@ -170,7 +250,57 @@ export class MyCampaignsComponent {
       );
   }
 
-  // add a plotline to the currently selected campaign
+  /* -------------
+  
+  
+
+ __    _  _______  _______                 ______   _______  __    _  _______ 
+|  |  | ||       ||       |               |      | |       ||  |  | ||       |
+|   |_| ||   _   ||_     _|               |  _    ||   _   ||   |_| ||    ___|
+|       ||  | |  |  |   |                 | | |   ||  | |  ||       ||   |___ 
+|  _    ||  |_|  |  |   |                 | |_|   ||  |_|  ||  _    ||    ___|
+| | |   ||       |  |   |                 |       ||       || | |   ||   |___ 
+|_|  |__||_______|  |___|                 |______| |_______||_|  |__||_______|
+
+
+  
+  Adding a character to your campaign
+  
+  
+  
+  --------------- */
+
+  addCharacter(character, campaign) {
+    this.http
+      .get<Character[]>(this.baseUrl + `api/CharacterController/${campaign.id}`)
+      .subscribe(
+        (result) => {
+          this.characters = result;
+          console.log(result);
+        },
+        (error) => console.error(error)
+      );
+  }
+
+  /* -------------
+  
+  
+
+ __    _  _______  _______                 ______   _______  __    _  _______ 
+|  |  | ||       ||       |               |      | |       ||  |  | ||       |
+|   |_| ||   _   ||_     _|               |  _    ||   _   ||   |_| ||    ___|
+|       ||  | |  |  |   |                 | | |   ||  | |  ||       ||   |___ 
+|  _    ||  |_|  |  |   |                 | |_|   ||  |_|  ||  _    ||    ___|
+| | |   ||       |  |   |                 |       ||       || | |   ||   |___ 
+|_|  |__||_______|  |___|                 |______| |_______||_|  |__||_______|
+
+
+  
+  Adding a Plotline to your campaign
+  
+  
+  
+  --------------- */
   addPlotLine = (Campaign) => {
     swal.fire({
       title: "New Campaign",
@@ -185,6 +315,22 @@ export class MyCampaignsComponent {
     });
     return;
   };
+
+  /*
+  
+  
+  
+  ______   ______   .__   __.      _______.___________..______       __    __    ______ .___________.  ______   .______      
+ /      | /  __  \  |  \ |  |     /       |           ||   _  \     |  |  |  |  /      ||           | /  __  \  |   _  \     
+|  ,----'|  |  |  | |   \|  |    |   (----`---|  |----`|  |_)  |    |  |  |  | |  ,----'`---|  |----`|  |  |  | |  |_)  |    
+|  |     |  |  |  | |  . `  |     \   \       |  |     |      /     |  |  |  | |  |         |  |     |  |  |  | |      /     
+|  `----.|  `--'  | |  |\   | .----)   |      |  |     |  |\  \----.|  `--'  | |  `----.    |  |     |  `--'  | |  |\  \----.
+ \______| \______/  |__| \__| |_______/       |__|     | _| `._____| \______/   \______|    |__|      \______/  | _| `._____|
+                                                                                                                             
+|                                                                                                                             |
+V                                                                                                                             V
+  
+  */
   constructor(
     private http: HttpClient,
     @Inject("BASE_URL") public baseUrl: string
@@ -198,11 +344,27 @@ export class MyCampaignsComponent {
   }
 }
 
+/*------------------------------------------------
+
+
+
+
+Defining Classes
+
+
+
+----------------------------------------------------*/
+
 interface Campaigns {
   id: string;
   name: string;
 }
 interface Character {
+  id: string;
+  CampaignsId: string;
+  name: string;
+}
+interface Plotline {
   id: string;
   CampaignsId: string;
   name: string;
