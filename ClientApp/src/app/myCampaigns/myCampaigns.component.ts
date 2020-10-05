@@ -271,14 +271,35 @@ Select Campaign
   
   
   --------------- */
-
+  charSwal(Campaign: Campaigns) {
+    swal.fire({
+      title: "Title",
+      input: "text",
+      showCancelButton: true,
+      inputValidator: (value) => {
+        if (!value) {
+          return "You need to write something!";
+        } else {
+          this.addCharacter(
+            {
+              Name: value,
+              status: "alive",
+              CampaignsID: Campaign.id,
+            },
+            Campaign
+          );
+        }
+      },
+    });
+    return;
+  }
   addCharacter(character, campaign) {
     this.http
-      .get<Character[]>(this.baseUrl + `api/CharacterController/${campaign.id}`)
+      .post<Character>(this.baseUrl + `api/CharacterController`, character)
       .subscribe(
         (result) => {
-          this.characters = result;
           console.log(result);
+          this.getCharacters(campaign);
         },
         (error) => console.error(error)
       );

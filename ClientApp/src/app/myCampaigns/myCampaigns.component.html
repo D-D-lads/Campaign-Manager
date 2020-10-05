@@ -39,12 +39,12 @@
               class="dropdown-item"
               (click)="addToFilter(character)"
             >
-              {{ character.name }}
+              {{ character.name }}: ({{ character.status }})
             </button>
           </div>
         </div>
       </div>
-      <button class="btn btn-dark">+</button>
+      <button class="btn btn-dark" (click)="charSwal(campaign)">+</button>
 
       <div class="btn-group col-6" role="group">
         <button class="btn btn-info">Status</button>
@@ -53,14 +53,12 @@
     </div>
   </span>
   <div class="row col-12">
-    <div *ngFor="let character of filter" class="text-center outline">
-      <div>
-        {{ character.name }}
-      </div>
+    <span class="badge badge-secondary" *ngFor="let character of filter">
+      <div>{{ character.name }}: ({{ character.status }})</div>
       <button class="btn btn-danger" (click)="removeFromFilter(character)">
         x
       </button>
-    </div>
+    </span>
   </div>
   <button class="btn btn-success" (click)="addPlotLine(campaign)">
     Add Plotline
@@ -81,7 +79,10 @@
         <td>{{ plotline.status }}</td>
         <td>
           <div *ngIf="!plotline.characters[0]">N/A</div>
-          <div *ngFor="let character of plotline.characters">
+          <span
+            class="badge badge-secondary"
+            *ngFor="let character of plotline.characters"
+          >
             {{ character.name }}
             <button
               class="btn btn-dark"
@@ -89,7 +90,7 @@
             >
               x
             </button>
-          </div>
+          </span>
           <div class="dropdown">
             <button
               class="btn btn-secondary dropdown-toggle"
