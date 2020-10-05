@@ -83,6 +83,9 @@
           <div *ngIf="!plotline.characters[0]">N/A</div>
           <div *ngFor="let character of plotline.characters">
             {{ character.name }}
+            <button class="btn btn-dark" (click)="removeCharacterFromPlot()">
+              x
+            </button>
           </div>
           <div class="dropdown">
             <button
