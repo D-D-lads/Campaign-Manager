@@ -93,3 +93,9 @@ option {
 .outline {
   border: 1px solid black;
 }
+.ninety {
+  width: 90%;
+}
+.ten {
+  width: 10%;
+}

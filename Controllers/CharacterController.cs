@@ -1,11 +1,6 @@
-using System;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Driver.Core;
-using MongoDB.Driver;
+
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Data.Common;
 using Microsoft.AspNetCore.Mvc;
 
 namespace dnd_planner
@@ -54,10 +49,11 @@ namespace dnd_planner
             await _characterService.UpdateAsync(id, updatedCharacter);
             return NoContent();
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
             var character = await _characterService.GetByIdAsync(id);
+            System.Console.Write(character);
             if (character == null)
             {
                 return NotFound();

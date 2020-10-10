@@ -33,22 +33,64 @@
           Characters
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <div *ngFor="let character of characters">
-            <button
+          <div *ngFor="let character of characters" class="row">
+            <div
               *ngIf="!filter.includes(character)"
-              class="dropdown-item"
-              (click)="addToFilter(character)"
+              class="d-inline-flex row col-12"
             >
-              {{ character.name }}: ({{ character.status }})
-            </button>
+              <button
+                class="dropdown-item col-9"
+                (click)="addToFilter(character)"
+              >
+                {{ character.name }}: ({{ character.status }})<br />
+              </button>
+              <button
+                (click)="deleteCharacter(character.id)"
+                class="btn-danger col-3"
+              >
+                X
+              </button>
+            </div>
           </div>
         </div>
       </div>
       <button class="btn btn-dark" (click)="charSwal(campaign)">+</button>
 
       <div class="btn-group col-6" role="group">
-        <button class="btn btn-info">Status</button>
-        <button class="btn btn-info">+</button>
+        <div class="dropdown">
+          <button
+            class="btn btn-secondary dropdown-toggle"
+            type="button"
+            id="dropdownMenuButton"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Statuses
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div *ngFor="let status of statuses" class="row">
+              <div
+                *ngIf="!filter.includes(character)"
+                class="d-inline-flex row col-12"
+              >
+                <button
+                  class="dropdown-item col-9"
+                  (click)="addToFilter(character)"
+                >
+                  {{ status.title }}<br />
+                </button>
+                <button
+                  (click)="deleteStatus(status.id)"
+                  class="btn-danger col-3"
+                >
+                  X
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-info" (click)="statusSwal()">+</button>
       </div>
     </div>
   </span>

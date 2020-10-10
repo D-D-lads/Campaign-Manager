@@ -24,10 +24,11 @@ namespace dnd_planner
             services.Configure<DatabaseSettings>(
        Configuration.GetSection(nameof(DatabaseSettings)));
             services.AddSingleton<IDatabaseSettings>(provider =>
-                provider.GetRequiredService<IOptions<DatabaseSettings>>().Value);
+            provider.GetRequiredService<IOptions<DatabaseSettings>>().Value);
             services.AddScoped<CampaignService>();
             services.AddScoped<CharacterService>();
             services.AddScoped<PlotlineService>();
+            services.AddScoped<StatusService>();
             services.AddControllers();
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory

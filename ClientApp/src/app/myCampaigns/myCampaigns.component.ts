@@ -27,7 +27,7 @@ export class MyCampaignsComponent {
   public characters: Character[];
   public plotlines: Plotline[];
   public filteredPlot: Plotline[];
-  public statuses: string[];
+  public statuses: Status[];
   public filter: Character[] = [];
 
   /*----------------------------------------------------------
@@ -230,6 +230,7 @@ Select Campaign
       );
     await this.getCharacters(Campaign);
     await this.getPlotLine(Campaign.id);
+    await this.getStatuses(Campaign);
   };
 
   /* --------------------------------------
@@ -250,6 +251,25 @@ Select Campaign
         },
         (error) => console.error(error)
       );
+  }
+  getStatuses(campaign) {
+    this.http
+      .get<Status[]>(this.baseUrl + `api/StatusController/${campaign.id}`)
+      .subscribe(
+        (result) => {
+          this.statuses = result;
+          console.log(this.statuses);
+        },
+        (error) => console.error(error)
+      );
+  }
+  deleteStatus(id: string) {
+    this.http.delete(this.baseUrl + `api/StatusController?id=${id}`).subscribe(
+      (result) => {
+        this.getStatuses(this.campaign);
+      },
+      (error) => console.error(error)
+    );
   }
 
   /* -------------
@@ -280,26 +300,98 @@ Select Campaign
         if (!value) {
           return "You need to write something!";
         } else {
-          this.addCharacter(
-            {
-              Name: value,
-              status: "alive",
-              CampaignsID: Campaign.id,
+          swal.fire({
+            title: "Title",
+            input: "select",
+            inputOptions: this.statuses.map((x) => x.title),
+            showCancelButton: true,
+            inputValidator: (value2) => {
+              if (!value2) {
+                return "You need to write something!";
+              } else {
+                this.addCharacter({
+                  Name: value,
+                  status: value2,
+                  CampaignsID: Campaign.id,
+                });
+              }
             },
-            Campaign
-          );
+          });
         }
       },
     });
     return;
   }
-  addCharacter(character, campaign) {
+
+  addCharacter(obj) {
+    let char = {
+      Name: obj.Name,
+      CampaignsId: obj.CampaignsID,
+      Status: this.statuses[obj.status].title,
+    };
+    console.log(char);
     this.http
-      .post<Character>(this.baseUrl + `api/CharacterController`, character)
+      .post<Character>(this.baseUrl + `api/CharacterController`, char)
       .subscribe(
         (result) => {
           console.log(result);
-          this.getCharacters(campaign);
+          this.getCharacters(this.campaign);
+        },
+        (error) => console.error(error)
+      );
+  }
+  editCharacter(character) {
+    this.http
+      .put<Character>(
+        this.baseUrl + `api/CharacterController/${character.id}`,
+        character
+      )
+      .subscribe(
+        (result) => {
+          console.log(result);
+          this.getCharacters(this.campaign);
+        },
+        (error) => console.error(error)
+      );
+  }
+  deleteCharacter(id: string) {
+    console.log("deleting character");
+    this.http
+      .delete(this.baseUrl + `api/CharacterController/${id}`)
+      .subscribe(
+        (result) => {
+          console.log(result);
+          this.getCharacters(this.campaign);
+        },
+        (error) => console.error(error)
+      );
+  }
+  statusSwal() {
+    swal.fire({
+      title: "Title",
+      input: "text",
+      showCancelButton: true,
+      inputValidator: (value) => {
+        if (!value) {
+          return "You need to write something!";
+        } else {
+          this.addStatus(value);
+        }
+      },
+    });
+    return;
+  }
+  addStatus(str: string) {
+    let char = {
+      title: str,
+      CampaignsId: this.campaign.id,
+    };
+    this.http
+      .post<Status>(this.baseUrl + `api/StatusController`, char)
+      .subscribe(
+        (result) => {
+          console.log(result);
+          this.getStatuses(this.campaign);
         },
         (error) => console.error(error)
       );
@@ -501,7 +593,12 @@ interface Character {
   id: string;
   CampaignsId: string;
   Name: string;
-  Status: string;
+  Status: Status;
+}
+interface Status {
+  id: string;
+  CampaignsId: string;
+  title: string;
 }
 interface Plotline {
   CampaignsId: string;
