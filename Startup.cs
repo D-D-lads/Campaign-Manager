@@ -29,6 +29,8 @@ namespace dnd_planner
             services.AddScoped<CharacterService>();
             services.AddScoped<PlotlineService>();
             services.AddScoped<StatusService>();
+            services.AddScoped<ShopService>();
+            services.AddScoped<CityService>();
             services.AddControllers();
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory

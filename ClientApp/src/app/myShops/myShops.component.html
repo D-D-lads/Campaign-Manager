@@ -1,0 +1,100 @@
+<div *ngIf="!campaign">
+  <h1 id="tableLabel">My Shops</h1>
+
+  <p *ngIf="!forecasts"><em>Loading...</em></p>
+  <div *ngFor="let forecast of forecasts" class="campaignList">
+    <div class="card">
+      <button (click)="deleteCampaign(forecast.id)" class="deleteCampaign">
+        X
+      </button>
+      <button (click)="editCampaign(forecast.id)" class="editCampaign">
+        Edit Name
+      </button>
+      <button class="selectCampaign" (click)="setCampaign(forecast)">
+        {{ forecast.name }}
+      </button>
+    </div>
+  </div>
+  <div class="card addCampaign" (click)="onClickMe()">Add Campaign</div>
+</div>
+<div *ngIf="campaign" class="container">
+  <h1>{{ campaign.name }}</h1>
+  <span class="row">
+    <div class="btn-group col-6 row" role="group">
+      <div class="dropdown">
+        <button 
+          class="btn btn-secondary dropdown-toggle"
+          type="button"
+          id="dropdownMenuButton"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          Cities
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div *ngFor="let city of cities" class="row">
+                <button
+                  class="dropdown-item col-9"
+                  (click)="SelectCity(city)"
+                >
+                  {{ city.name }}<br />
+                </button>
+                <button
+                  (click)="DeleteCitySwal(city.id)"
+                  class="btn-danger col-3"
+                >
+                  X
+                </button>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-dark" (click)="AddCitySwal()">+</button>
+
+      <div *ngIf="Shops" class="btn-group col-6" role="group">
+        <div class="dropdown">
+          <button
+            class="btn btn-secondary dropdown-toggle"
+            type="button"
+            id="dropdownMenuButton"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Shops
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div *ngFor="let status of statuses" class="row">
+              <div
+                *ngIf="!filter.includes(character)"
+                class="d-inline-flex row col-12"
+              >
+                <button
+                  class="dropdown-item col-9"
+                  (click)="addToFilter(character)"
+                >
+                  {{ status.title }}<br />
+                </button>
+                <button
+                  (click)="deleteStatus(status.id)"
+                  class="btn-danger col-3"
+                >
+                  X
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-info" (click)="statusSwal()">+</button>
+      </div>
+    </div>
+  </span>
+  <div class="row col-12">
+    <span class="badge badge-secondary" *ngFor="let character of filter">
+      <div>{{ character.name }}: ({{ character.status }})</div>
+      <button class="btn btn-danger" (click)="removeFromFilter(character)">
+        x
+      </button>
+    </span>
+  </div>
+</div>

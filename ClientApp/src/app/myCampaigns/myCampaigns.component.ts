@@ -84,7 +84,6 @@ export class MyCampaignsComponent {
             );
           return result;
         },
-
         //if there is an error. console error the response
         (error) => {
           console.error(error);

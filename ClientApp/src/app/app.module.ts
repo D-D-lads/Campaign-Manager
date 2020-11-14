@@ -9,6 +9,7 @@ import { NavMenuComponent } from "./nav-menu/nav-menu.component";
 import { HomeComponent } from "./home/home.component";
 import { FetchDataComponent } from "./fetch-data/fetch-data.component";
 import { MyCampaignsComponent } from "./myCampaigns/myCampaigns.component";
+import { MyShopsComponent } from "./myShops/myShops.component";
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { MyCampaignsComponent } from "./myCampaigns/myCampaigns.component";
     HomeComponent,
     FetchDataComponent,
     MyCampaignsComponent,
+    MyShopsComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: "ng-cli-universal" }),
@@ -24,7 +26,7 @@ import { MyCampaignsComponent } from "./myCampaigns/myCampaigns.component";
     FormsModule,
     RouterModule.forRoot([
       { path: "", component: HomeComponent, pathMatch: "full" },
-      { path: "fetch-data", component: FetchDataComponent },
+      { path: "myShops", component: MyShopsComponent },
       { path: "myCampaigns", component: MyCampaignsComponent },
     ]),
   ],
