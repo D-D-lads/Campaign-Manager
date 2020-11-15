@@ -10,11 +10,9 @@ namespace dnd_planner
     public class ShopController : ControllerBase
     {
         private readonly ShopService _shopService;
-            private readonly ItemService _itemService;
-        public ShopController(ShopService service, ItemService serviceI)
+        public ShopController(ShopService service)
         {
             _shopService = service;
-            _itemService = serviceI;
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<Shop>>> GetAll(string id)
@@ -36,38 +34,18 @@ namespace dnd_planner
         [HttpPost]
         public async Task<IActionResult> Create(Shop shop)
         {
-            Item[] items = _itemService.GetAll().ToArray();
-            System.Random rand = new System.Random();
-            int index = 0;
-            while(index < shop.Capacity){
-                int itemIndex =  rand.Next(items.Length-1);
-                int itemQty;
-                if(shop.Capacity-index>=5){
-                itemQty =  rand.Next(5);
-                }
-                else{
-                itemQty =  rand.Next(shop.Capacity-index);
-                }
-
-                for(int j = 0; j<=itemQty; j++){
-                    shop.items.Add(items[itemIndex]);
-                    index++;
-                }
-
-            }
-
             await _shopService.CreateAsync(shop);
             return Ok(shop);
         }
         [HttpPut]
-        public async Task<IActionResult> Update(string id, Shop updatedShop)
+        public async Task<IActionResult> AddItem(Shop shop)
         {
-            var queriedShop = await _shopService.GetByIdAsync(id);
+            var queriedShop = await _shopService.GetByIdAsync(shop.Id);
             if (queriedShop == null)
             {
                 return NotFound();
             }
-            await _shopService.UpdateAsync(id, updatedShop);
+            await _shopService.UpdateAsync(shop.Id, shop);
             return NoContent();
         }
         [HttpDelete("{id}")]

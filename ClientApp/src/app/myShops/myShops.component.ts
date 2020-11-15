@@ -23,7 +23,7 @@ export class MyShopsComponent {
   public cities: City[];
   public City: City = null;
   public shops: Shop[];
-  public Shop: Shop = null;
+  public Shop: Shop;
   public items: Item[];
 
 
@@ -315,6 +315,19 @@ export class MyShopsComponent {
         (error) => console.error(error)
       );
   };
+  getShop = async (id) => {
+    //so I guess this works now?
+    await this.http
+      .get<Shop>(
+        this.baseUrl + `api/ShopController/${id}/byID`
+      )
+      .subscribe(
+        (result) => {
+          this.Shop = result;
+        },
+        (error) => console.error(error)
+      );
+  };
   setShop = async (Shop) => {
     //so I guess this works now?
     await this.http
@@ -373,8 +386,10 @@ export class MyShopsComponent {
   }
   SelectShop(shop) {
     this.Shop = shop;
+    this.getAllItems();
     console.log(shop);
-  }DeleteShopSwal = async (id) => {
+  }
+  DeleteShopSwal = async (id) => {
     swal.fire({
       title: 'Are you sure?',
     text: "You won't be able to revert this!",
@@ -409,42 +424,41 @@ export class MyShopsComponent {
   //End of Shop
 
 
-  DeleteItemSwal = async (id) => {
-    swal.fire({
-      title: 'Are you sure?',
-    text: "You won't be able to revert this!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Yes, delete it!'
-  }).then(async(result) => {
-    if (result.isConfirmed) {
-      await this.DeleteItem(id);
-      await swal.fire(
-        'Deleted!',
-        'Your file has been deleted.',
-        'success'
-      )
+  DeleteItem(Shop, item) {
+    Shop.items.splice(Shop.items.indexOf(item), 1);
+    let shop = {
+      ...Shop,
     }
-  });
-  };
-  DeleteItem(id) {
+    console.log(shop)
     this.http
-      .delete<Shop>(this.baseUrl + `api/ItemController/${id}`, )
+      .put<Shop>(this.baseUrl + `api/ShopController`, shop )
       .subscribe(
         (result) => {
-          console.log(result);
-          this.getAllShops(this.City.id);
+          this.getShop(Shop.id);
         },
         (error) => console.error(error)
       );
   }
-  getAllItems = async (shop) => {
+  AddItem(Shop, item) {
+    let shop = {
+      ...Shop,
+      items:[...Shop.items, item],
+    }
+    console.log(shop)
+    this.http
+      .put<Shop>(this.baseUrl + `api/ShopController`, shop )
+      .subscribe(
+        (result) => {
+          this.getShop(Shop.id);
+        },
+        (error) => console.error(error)
+      );
+  }
+  getAllItems = async () => {
     //so I guess this works now?
     await this.http
       .get<Item[]>(
-        this.baseUrl + `api/ItemController/${shop}`
+        this.baseUrl + `api/ItemsController`
       )
       .subscribe(
         (result) => {

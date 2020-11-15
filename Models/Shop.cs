@@ -20,7 +20,7 @@ namespace dnd_planner
         public string City { get; set; }
         [Required(ErrorMessage = "Capacity is required")]
         public int Capacity { get; set; } 
-        public List<Item> items {get;set;}
+        public List<Item> items {get;set;} = new List<Item>();
 
     }
     public class ShopService
