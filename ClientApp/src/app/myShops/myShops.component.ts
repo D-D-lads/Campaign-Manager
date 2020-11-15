@@ -371,8 +371,9 @@ export class MyShopsComponent {
         (error) => console.error(error)
       );
   }
-  SelectShop(city) {
-    this.Shop = city;
+  SelectShop(shop) {
+    this.Shop = shop;
+    console.log(shop);
   }DeleteShopSwal = async (id) => {
     swal.fire({
       title: 'Are you sure?',

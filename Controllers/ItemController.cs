@@ -48,7 +48,7 @@ namespace dnd_planner
             await _itemService.UpdateAsync(id, updatedItem);
             return NoContent();
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
             var item = await _itemService.GetByIdAsync(id);

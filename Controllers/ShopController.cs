@@ -11,9 +11,10 @@ namespace dnd_planner
     {
         private readonly ShopService _shopService;
             private readonly ItemService _itemService;
-        public ShopController(ShopService service)
+        public ShopController(ShopService service, ItemService serviceI)
         {
             _shopService = service;
+            _itemService = serviceI;
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<Shop>>> GetAll(string id)

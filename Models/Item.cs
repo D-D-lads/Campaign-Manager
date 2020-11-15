@@ -17,7 +17,7 @@ namespace dnd_planner
         [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Description is required")]
-        public string Desc { get; set; }
+        public string Cost { get; set; }
         [Required(ErrorMessage = "Campaign is required")]
         public string Rarity { get; set; }
     }

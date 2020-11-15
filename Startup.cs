@@ -30,6 +30,7 @@ namespace dnd_planner
             services.AddScoped<PlotlineService>();
             services.AddScoped<StatusService>();
             services.AddScoped<ShopService>();
+            services.AddScoped<ItemService>();
             services.AddScoped<CityService>();
             services.AddControllers();
             services.AddControllersWithViews();
