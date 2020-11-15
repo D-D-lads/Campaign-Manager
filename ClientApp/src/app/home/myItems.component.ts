@@ -13,7 +13,25 @@ import { async } from "@angular/core/testing";
 export class MyItemsComponent {
   public items: Item[];
 
-
+ItemReader = (id)=>{
+let rarity;
+if(id==0){
+  rarity = "common";
+}
+if(id==1){
+  rarity = "uncommon";
+}
+if(id==2){
+  rarity = "rare";
+}
+if(id==3){
+  rarity = "very rare";
+}
+if(id==4){
+  rarity = "legendary";
+}
+return rarity;
+}
 AddItemSwal = async()=>{
   
   swal.fire({

@@ -25,6 +25,7 @@ export class MyShopsComponent {
   public shops: Shop[];
   public Shop: Shop;
   public items: Item[];
+  public storeItems:[]
 
 
   /*----------------------------------------------------------
@@ -323,20 +324,7 @@ export class MyShopsComponent {
       )
       .subscribe(
         (result) => {
-          this.Shop = result;
-        },
-        (error) => console.error(error)
-      );
-  };
-  setShop = async (Shop) => {
-    //so I guess this works now?
-    await this.http
-      .get<Shop[]>(
-        this.baseUrl + `api/CampaignsController/${Shop.id}/getByID`
-      )
-      .subscribe(
-        (result) => {
-          this.shops = result;
+          this.SelectShop(result)
         },
         (error) => console.error(error)
       );
@@ -387,7 +375,26 @@ export class MyShopsComponent {
   SelectShop(shop) {
     this.Shop = shop;
     this.getAllItems();
+    this.storeItems = this.getItemsByQty(shop.items);
     console.log(shop);
+    console.log(this.storeItems);
+  }
+  getItemsByQty(itemList: Item[]){
+      if(!itemList[0]){
+        return itemList;
+      }
+      else{
+        console.log(itemList);
+        let newShop= itemList.filter(x=>x.id != itemList[0].id)
+        let itemQty = itemList.length-newShop.length;
+        return [...this.getItemsByQty(newShop) , {
+          id:itemList[0].id,
+          cost:itemList[0].cost,
+          rarity:itemList[0].rarity,
+          name: itemList[0].name,
+          qty:itemQty
+        }]
+      }
   }
   DeleteShopSwal = async (id) => {
     swal.fire({
@@ -425,16 +432,17 @@ export class MyShopsComponent {
 
 
   DeleteItem(Shop, item) {
-    Shop.items.splice(Shop.items.indexOf(item), 1);
+    Shop.items.splice(Shop.items.findIndex(x => x.id == item.id), 1);
     let shop = {
       ...Shop,
     }
     console.log(shop)
+    console.log(Shop.items)
     this.http
       .put<Shop>(this.baseUrl + `api/ShopController`, shop )
       .subscribe(
         (result) => {
-          this.getShop(Shop.id);
+          this.getShop(Shop.id); 
         },
         (error) => console.error(error)
       );
@@ -526,6 +534,7 @@ interface Shop {
 }
 interface Item {
   id: string;
+  name: string
   rarity: string;
   cost: string;
 }
