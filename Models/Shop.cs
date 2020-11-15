@@ -18,6 +18,10 @@ namespace dnd_planner
         public string Name { get; set; }
         [Required(ErrorMessage = "City is required")]
         public string City { get; set; }
+        [Required(ErrorMessage = "Capacity is required")]
+        public int Capacity { get; set; } 
+        public List<Item> items {get;set;}
+
     }
     public class ShopService
     {
@@ -28,9 +32,9 @@ namespace dnd_planner
             var database = client.GetDatabase(settings.DatabaseName);
             _shop = database.GetCollection<Shop>(settings.ShopCollectionName);
         }
-        public async Task<List<Shop>> GetAllAsync()
+        public async Task<List<Shop>> GetAllAsync(string cityId)
         {
-            return await _shop.Find(s => true).ToListAsync();
+            return await _shop.Find(s => s.City == cityId).ToListAsync();
         }
         public async Task<Shop> GetByIdAsync(string id)
         {

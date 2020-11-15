@@ -34,6 +34,10 @@ namespace dnd_planner
         {
             return await _item.Find(s => true).ToListAsync();
         }
+        public List<Item> GetAll()
+        {
+            return _item.Find(s => true).ToList();
+        }
         public async Task<Item> GetByIdAsync(string id)
         {
             return await _item.Find<Item>(s => s.Id == id).FirstOrDefaultAsync();

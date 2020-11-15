@@ -2,15 +2,14 @@ import { Component, Inject } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import swal from "sweetalert2";
 import { Observable, throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
 
 @Component({
-  selector: "app-my-shops",
-  templateUrl: "./myShops.component.html",
+  selector: "app-my-items",
+  templateUrl: "./myItems.component.html",
 })
 
 //I have no idea how to do subrouting for each campaign id.
-export class MyShopsComponent {
+export class MyItemsComponent {
   /*
   variable definitions
 
